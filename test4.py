@@ -56,8 +56,8 @@ while True:
         # add a particle to that position...
 
         if not pos:
-            pos = np.array([[row, col]])
-            vel = np.array([[0, 0]])
+            pos = np.array([[np.float(row), np.float(col)]])
+            vel = np.array([[0., 0.]])
         else:
             pos = np.append(pos, np.array([[row, col]]), axis=0)
             vel = np.append(vel, np.array([[0, 0]]), axis=0)
