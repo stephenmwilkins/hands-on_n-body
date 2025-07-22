@@ -8,7 +8,7 @@ dt = 0.1         # Time step
 N = 3             # Number of bodies
 softening = 0.2   # Softening length (epsilon)
 
-pixels = neopixel.NeoPixel(board.D5, 30, brightness=1)
+pixels = neopixel.NeoPixel(board.D18, 30, brightness=1)
 pixels.fill((0,0,0))
 
 # Initial positions (x, y), velocities (vx, vy), and masses
