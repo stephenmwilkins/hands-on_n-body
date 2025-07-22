@@ -128,6 +128,8 @@ while True:
         for i, value in enumerate(flattened_grid):
             # pixels[i] = (255 * value / N, 0, 0)
             if value > 0:
-                pixels[i] = rainbow(value)
+                pixels[i] = rainbow(value * 10)
+            else:
+                pixels[i] = (0, 0, 0)
 
         sleep(0.01)
