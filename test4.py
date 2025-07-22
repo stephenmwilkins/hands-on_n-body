@@ -80,7 +80,7 @@ while True:
 
         vel += acc * dt
         pos += vel * dt
-
+        print('-----------')
         print(acc)
         print(vel)
         print(pos)
@@ -95,4 +95,4 @@ while True:
         for i, value in enumerate(flattened_grid):
             pixels[i] = (255 * value / N, 0, 0)
 
-        sleep(5.0)
+        sleep(3.0)
