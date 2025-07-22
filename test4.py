@@ -56,16 +56,18 @@ while True:
                 pos = None
                 vel = None
 
-            print('added at', row, col)
-
-            # add a particle to that position...
-
-            if pos is None:
-                pos = np.array([[float(row)+0.5, float(col)+0.5]])
-                vel = np.array([[0., 0.]])
             else:
-                pos = np.append(pos, np.array([[float(row)+0.5, float(col)+0.5]]), axis=0)
-                vel = np.append(vel, np.array([[0, 0]]), axis=0)
+
+                print('added at', row, col)
+
+                # add a particle to that position...
+
+                if pos is None:
+                    pos = np.array([[float(row)+0.5, float(col)+0.5]])
+                    vel = np.array([[0., 0.]])
+                else:
+                    pos = np.append(pos, np.array([[float(row)+0.5, float(col)+0.5]]), axis=0)
+                    vel = np.append(vel, np.array([[0, 0]]), axis=0)
             
             print(pos)
 
