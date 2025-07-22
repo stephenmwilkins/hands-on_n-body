@@ -54,10 +54,10 @@ while True:
         print('added at', row, col)
 
         # add a particle to that position...
-        np.append(pos, np.array([row, col]), axis=0)
+        pos = np.append(pos, np.array([row, col]), axis=0)
         
         # ... with zero velocity
-        np.append(vel, np.array([0, 0]), axis=0)
+        vel = np.append(vel, np.array([0, 0]), axis=0)
 
         print(pos)
 
