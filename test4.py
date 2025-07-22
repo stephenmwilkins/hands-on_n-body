@@ -141,4 +141,4 @@ while True:
             else:
                 pixels[pixel] = (0, 0, 0)
 
-        sleep(0.1)
+        sleep(0.01)
