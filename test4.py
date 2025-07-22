@@ -127,6 +127,7 @@ while True:
         # loop over the cells and set the pixel value appropriately
         for i, value in enumerate(flattened_grid):
             # pixels[i] = (255 * value / N, 0, 0)
-            pixels[i] = rainbow(value)
+            if value > 0:
+                pixels[i] = rainbow(value)
 
         sleep(0.01)
