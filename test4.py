@@ -79,6 +79,8 @@ while True:
             # get the row and column
             row, col = key_to_pixel_map(key_event.key_number)
 
+            print(row, col)
+
             if (row == 4) and (col == 5):
                 pos = None
                 vel = None
@@ -91,10 +93,10 @@ while True:
                 # add a particle to that position...
 
                 if pos is None:
-                    pos = np.array([[float(row)+0.25, float(col)+0.25]])
+                    pos = np.array([[float(row)+0.5, float(col)+0.5]])
                     vel = np.array([[0., 0.]])
                 else:
-                    pos = np.append(pos, np.array([[float(row)+0.25, float(col)+0.25]]), axis=0)
+                    pos = np.append(pos, np.array([[float(row)+0.5, float(col)+0.5]]), axis=0)
                     vel = np.append(vel, np.array([[0, 0]]), axis=0)
             
             print(pos)
@@ -113,10 +115,10 @@ while True:
 
         vel += acc * dt
         pos += vel * dt
-        print('-----------')
-        print(acc)
-        print(vel)
-        print(pos)
+        # print('-----------')
+        # print(acc)
+        # print(vel)
+        # print(pos)
 
         # make a histogram of the positions
         grid, _,  _ = np.histogram2d(pos[:, 0], pos[:, 1], bin_edges)
