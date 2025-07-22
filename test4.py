@@ -34,7 +34,7 @@ def rainbow(pos):
 # Parameters
 G = 1.0          # Gravitational constant
 dt = 0.1         # Time step
-softening = 0.2   # Softening length (epsilon)
+softening = 0.5   # Softening length (epsilon)
 
 pixels = neopixel.NeoPixel(board.D18, 30, brightness=1)
 
