@@ -55,6 +55,7 @@ while True:
             if (row == 4) and (col == 5):
                 pos = None
                 vel = None
+                pixels.fill((0, 0, 0))
 
             else:
 
@@ -71,7 +72,6 @@ while True:
             
             print(pos)
 
-    pixels.fill((0, 0, 0))
     if pos is not None:
 
         N = len(pos)
