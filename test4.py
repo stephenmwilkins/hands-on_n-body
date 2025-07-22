@@ -16,8 +16,8 @@ pixels = neopixel.NeoPixel(board.D18, 30, brightness=1)
 pixels.fill((0,0,0))
 
 # Initial positions (x, y), velocities (vx, vy), and masses
-pos = np.array([])
-vel = np.array([])
+pos = None
+vel = None
 
 cols = 6
 rows = 5
@@ -54,16 +54,20 @@ while True:
         print('added at', row, col)
 
         # add a particle to that position...
-        pos = np.append(pos, np.array([row, col]), axis=0)
-        
-        # ... with zero velocity
-        vel = np.append(vel, np.array([0, 0]), axis=0)
 
+        if not pos:
+            pos = np.array([[row, col]])
+            vel = np.array([[0, 0]])
+        else:
+            pos = np.append(pos, np.array([[row, col]]), axis=0)
+            vel = np.append(vel, np.array([[0, 0]]), axis=0)
+        
         print(pos)
 
-    N = len(pos)
 
-    if N>0:
+    if pos:
+
+        N = len(pos)
 
         acc = np.zeros_like(pos)
         for i in range(N):
