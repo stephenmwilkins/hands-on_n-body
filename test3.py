@@ -5,7 +5,6 @@ import neopixel
 # Parameters
 G = 1.0          # Gravitational constant
 dt = 0.1         # Time step
-steps = 2     # Number of simulation steps
 N = 3             # Number of bodies
 softening = 0.2   # Softening length (epsilon)
 
@@ -23,7 +22,7 @@ rows = 5
 bin_edges = [np.arange(0, rows+1), np.arange(0, cols+1)]
 
 # Simulation loop
-for step in range(steps):
+while True:
     acc = np.zeros_like(pos)
     for i in range(N):
         for j in range(N):
@@ -37,8 +36,6 @@ for step in range(steps):
     grid, _,  _ = np.histogram2d(pos[:, 0], pos[:, 1], bin_edges)
 
     flattened_grid = grid.flatten()
-
-    print(flattened_grid) 
 
     for i, value in enumerate(flattened_grid):
         print(i, value)
