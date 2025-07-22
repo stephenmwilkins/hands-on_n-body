@@ -48,9 +48,13 @@ while True:
     if key_event:
 
         if key_event.pressed:
-        
+
             # get the row and column
             row, col = key_to_pixel_map(key_event.key_number)
+
+            if (row == 4) and (col == 5):
+                pos = None
+                vel = None
 
             print('added at', row, col)
 
