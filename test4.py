@@ -94,4 +94,4 @@ while True:
         for i, value in enumerate(flattened_grid):
             pixels[i] = (255 * value / N, 0, 0)
 
-        sleep(0.1)
+        sleep(0.01)
