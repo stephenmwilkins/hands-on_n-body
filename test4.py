@@ -7,7 +7,6 @@ from time import sleep
 # Parameters
 G = 1.0          # Gravitational constant
 dt = 0.1         # Time step
-N = 3             # Number of bodies
 softening = 0.2   # Softening length (epsilon)
 
 pixels = neopixel.NeoPixel(board.D18, 30, brightness=1)
@@ -61,7 +60,7 @@ while True:
                 pos = np.array([[float(row), float(col)]])
                 vel = np.array([[0., 0.]])
             else:
-                pos = np.append(pos, np.array([[row, col]]), axis=0)
+                pos = np.append(pos, np.array([[row+0.5, col+0.5]]), axis=0)
                 vel = np.append(vel, np.array([[0, 0]]), axis=0)
             
             print(pos)
@@ -95,4 +94,4 @@ while True:
         for i, value in enumerate(flattened_grid):
             pixels[i] = (255 * value / N, 0, 0)
 
-        sleep(3.0)
+        sleep(0.1)
