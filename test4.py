@@ -86,7 +86,6 @@ while True:
 
         # loop over the cells and set the pixel value appropriately
         for i, value in enumerate(flattened_grid):
-            print(i, value)
             pixels[i] = (255 * value / N, 0, 0)
 
-        sleep(1)
+        sleep(0.1)
