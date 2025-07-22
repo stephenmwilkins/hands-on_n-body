@@ -125,11 +125,15 @@ while True:
         flattened_grid = grid.flatten()
 
         # loop over the cells and set the pixel value appropriately
+
         for cell, value in enumerate(flattened_grid):
 
             # the ordering of the cells is different from the LEDs
-
-            pixel = cell
+            row = cell // cols
+            col = cell % cols
+            if row % 2 == 1:
+                col = cols - col - 1
+            pixel = row * cols + col
 
             # pixels[i] = (255 * value / N, 0, 0)
             if value > 0:
