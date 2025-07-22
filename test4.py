@@ -60,8 +60,6 @@ keys = keypad.KeyMatrix(
 def key_to_pixel_map(key_number):
     row = key_number // cols
     column = (key_number % cols)
-    if row % 2 == 1:
-        column = cols - column - 1
     return row, column
 
 
