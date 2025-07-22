@@ -71,6 +71,7 @@ while True:
             
             print(pos)
 
+    pixels.fill((0, 0, 0))
     if pos is not None:
 
         N = len(pos)
