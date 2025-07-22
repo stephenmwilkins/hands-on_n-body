@@ -46,23 +46,25 @@ pixels.fill((0, 0, 0))  # Begin with pixels off.
 while True:
 
     key_event = keys.events.get()
-    if key_event.pressed:
+    if key_event:
+
+        if key_event.pressed:
         
-        # get the row and column
-        row, col = key_to_pixel_map(key_event.key_number)
+            # get the row and column
+            row, col = key_to_pixel_map(key_event.key_number)
 
-        print('added at', row, col)
+            print('added at', row, col)
 
-        # add a particle to that position...
+            # add a particle to that position...
 
-        if pos is None:
-            pos = np.array([[float(row), float(col)]])
-            vel = np.array([[0., 0.]])
-        else:
-            pos = np.append(pos, np.array([[row, col]]), axis=0)
-            vel = np.append(vel, np.array([[0, 0]]), axis=0)
-        
-        print(pos)
+            if pos is None:
+                pos = np.array([[float(row), float(col)]])
+                vel = np.array([[0., 0.]])
+            else:
+                pos = np.append(pos, np.array([[row, col]]), axis=0)
+                vel = np.append(vel, np.array([[0, 0]]), axis=0)
+            
+            print(pos)
 
     if pos is not None:
 
