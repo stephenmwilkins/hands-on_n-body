@@ -129,11 +129,7 @@ while True:
 
             # the ordering of the cells is different from the LEDs
 
-            row = cell // cols
-            column = (cell % cols)
-            if row % 2 == 1:
-                column = cols - column - 1
-            pixel = row * cols + col
+            pixel = cell
 
             # pixels[i] = (255 * value / N, 0, 0)
             if value > 0:
