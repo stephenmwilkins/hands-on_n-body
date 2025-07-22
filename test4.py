@@ -68,15 +68,15 @@ while True:
 
         N = len(pos)
 
-        acc = np.zeros_like(pos)
-        for i in range(N):
-            for j in range(N):
-                if i != j:
-                    r = pos[j] - pos[i]
-                    dist2 = np.dot(r, r) + softening**2
-                    acc[i] += G * r / dist2**1.5
-        vel += acc * dt
-        pos += vel * dt
+        # acc = np.zeros_like(pos)
+        # for i in range(N):
+        #     for j in range(N):
+        #         if i != j:
+        #             r = pos[j] - pos[i]
+        #             dist2 = np.dot(r, r) + softening**2
+        #             acc[i] += G * r / dist2**1.5
+        # vel += acc * dt
+        # pos += vel * dt
 
         # make a histogram of the positions
         grid, _,  _ = np.histogram2d(pos[:, 0], pos[:, 1], bin_edges)
@@ -88,4 +88,4 @@ while True:
         for i, value in enumerate(flattened_grid):
             pixels[i] = (255 * value / N, 0, 0)
 
-        sleep(0.1)
+        sleep(1.0)
