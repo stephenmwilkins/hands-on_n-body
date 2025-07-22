@@ -64,8 +64,7 @@ while True:
         
         print(pos)
 
-
-    if pos:
+    if pos is not None:
 
         N = len(pos)
 
