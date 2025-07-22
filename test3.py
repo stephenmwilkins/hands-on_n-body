@@ -14,7 +14,6 @@ pixels.fill((0,0,0))
 # Initial positions (x, y), velocities (vx, vy), and masses
 pos = np.random.randn(N, 2) + 3
 vel = np.random.randn(N, 2) * 0.1
-mass = np.ones(N)
 
 cols = 6 
 rows = 5
@@ -29,7 +28,7 @@ while True:
             if i != j:
                 r = pos[j] - pos[i]
                 dist2 = np.dot(r, r) + softening**2
-                acc[i] += G * mass[j] * r / dist2**1.5
+                acc[i] += G * r / dist2**1.5
     vel += acc * dt
     pos += vel * dt
 

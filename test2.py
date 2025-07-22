@@ -13,6 +13,9 @@ pos = np.random.randn(N, 2) + 3
 vel = np.random.randn(N, 2) * 0.1
 mass = np.ones(N)
 
+print(pos)
+print(vel)
+
 cols = 6 
 rows = 5
 

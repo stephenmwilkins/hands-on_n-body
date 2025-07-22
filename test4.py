@@ -1,0 +1,82 @@
+import numpy as np
+import board
+import keypad
+import neopixel
+
+# Parameters
+G = 1.0          # Gravitational constant
+dt = 0.1         # Time step
+N = 3             # Number of bodies
+softening = 0.2   # Softening length (epsilon)
+
+pixels = neopixel.NeoPixel(board.D18, 30, brightness=1)
+
+# set all pixels to 0
+pixels.fill((0,0,0))
+
+# Initial positions (x, y), velocities (vx, vy), and masses
+pos = np.array([])
+vel = np.array([])
+
+cols = 6
+rows = 5
+
+bin_edges = [np.arange(0, rows+1), np.arange(0, cols+1)]
+
+keys = keypad.KeyMatrix(
+    row_pins=(board.D21, board.D20, board.D16, board.D12, board.D1),
+    column_pins=(board.D26, board.D19, board.D13, board.D6, board.D5, board.D0),
+    columns_to_anodes=False,
+)
+
+
+def key_to_pixel_map(key_number):
+    row = key_number // cols
+    column = (key_number % cols)
+    if row % 2 == 1:
+        column = cols - column - 1
+    return row, column
+
+
+pixels.fill((0, 0, 0))  # Begin with pixels off.
+
+    
+
+
+# Simulation loop
+while True:
+
+    key_event = keys.events.get()
+    if key_event:
+        
+        # get the row and column
+        row, col = key_to_pixel_map(key_event.key_number)
+
+        # add a particle to that position...
+        np.append(pos, [row, col])
+        
+        # ... with zero velocity
+        np.append(vel, [0, 0])
+
+    acc = np.zeros_like(pos)
+    for i in range(len(pos)):
+        for j in range(len(pos)):
+            if i != j:
+                r = pos[j] - pos[i]
+                dist2 = np.dot(r, r) + softening**2
+                acc[i] += G * r / dist2**1.5
+    vel += acc * dt
+    pos += vel * dt
+
+    # make a histogram of the positions
+    grid, _,  _ = np.histogram2d(pos[:, 0], pos[:, 1], bin_edges)
+
+    # make a flattened version
+    flattened_grid = grid.flatten()
+
+    # loop over the cells and set the pixel value appropriately
+    for i, value in enumerate(flattened_grid):
+        print(i, value)
+        pixels[i] = (255 * value / N, 0, 0)
+
+
