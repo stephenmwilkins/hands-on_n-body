@@ -42,8 +42,6 @@ def key_to_pixel_map(key_number):
 pixels.fill((0, 0, 0))  # Begin with pixels off.
 
     
-
-
 # Simulation loop
 while True:
 
@@ -52,6 +50,8 @@ while True:
         
         # get the row and column
         row, col = key_to_pixel_map(key_event.key_number)
+
+        print('added at', row, col)
 
         # add a particle to that position...
         np.append(pos, [row, col])

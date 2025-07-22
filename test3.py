@@ -37,8 +37,9 @@ while True:
 
     flattened_grid = grid.flatten()
 
+    print(flattened_grid)
+
     for i, value in enumerate(flattened_grid):
-        print(i, value)
         pixels[i] = (255 * value / N, 0, 0)
 
     sleep(1)
