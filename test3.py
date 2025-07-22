@@ -1,6 +1,7 @@
 import numpy as np
 import board
 import neopixel
+from time import sleep
 
 # Parameters
 G = 1.0          # Gravitational constant
@@ -40,4 +41,5 @@ while True:
         print(i, value)
         pixels[i] = (255 * value / N, 0, 0)
 
+    sleep(1)
 

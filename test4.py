@@ -2,6 +2,7 @@ import numpy as np
 import board
 import keypad
 import neopixel
+from time import sleep
 
 # Parameters
 G = 1.0          # Gravitational constant
@@ -58,25 +59,29 @@ while True:
         # ... with zero velocity
         np.append(vel, [0, 0])
 
-    acc = np.zeros_like(pos)
-    for i in range(len(pos)):
-        for j in range(len(pos)):
-            if i != j:
-                r = pos[j] - pos[i]
-                dist2 = np.dot(r, r) + softening**2
-                acc[i] += G * r / dist2**1.5
-    vel += acc * dt
-    pos += vel * dt
+    N = len(pos)
 
-    # make a histogram of the positions
-    grid, _,  _ = np.histogram2d(pos[:, 0], pos[:, 1], bin_edges)
+    if N>0:
 
-    # make a flattened version
-    flattened_grid = grid.flatten()
+        acc = np.zeros_like(pos)
+        for i in range(N):
+            for j in range(N):
+                if i != j:
+                    r = pos[j] - pos[i]
+                    dist2 = np.dot(r, r) + softening**2
+                    acc[i] += G * r / dist2**1.5
+        vel += acc * dt
+        pos += vel * dt
 
-    # loop over the cells and set the pixel value appropriately
-    for i, value in enumerate(flattened_grid):
-        print(i, value)
-        pixels[i] = (255 * value / N, 0, 0)
+        # make a histogram of the positions
+        grid, _,  _ = np.histogram2d(pos[:, 0], pos[:, 1], bin_edges)
 
+        # make a flattened version
+        flattened_grid = grid.flatten()
 
+        # loop over the cells and set the pixel value appropriately
+        for i, value in enumerate(flattened_grid):
+            print(i, value)
+            pixels[i] = (255 * value / N, 0, 0)
+
+        sleep(1)
