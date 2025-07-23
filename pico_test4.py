@@ -1,21 +1,45 @@
 import numpy as np
 import board
+import digitalio
+import ulab.numpy as np
+import board
 import keypad
 import neopixel
 from time import sleep
-from adafruit_seesaw import digitalio, rotaryio, seesaw
 
-i2c = board.I2C()  # uses board.SCL and board.SDA
-seesaw = seesaw.Seesaw(i2c, addr=0x36)
 
-# Configure seesaw pin used to read knob button presses
-# The internal pull up is enabled to prevent floating input
-seesaw.pin_mode(24, seesaw.INPUT_PULLUP)
-button = digitalio.DigitalIO(seesaw, 24)
-button_held = False
-encoder = rotaryio.IncrementalEncoder(seesaw)
-last_position = None
+def histogram2d_ulab(x, y, bins=10, range=None):
+    # Convert scalars to bin counts
+    if isinstance(bins, int):
+        bins_x = bins_y = bins
+    else:
+        bins_x, bins_y = bins
 
+    # Determine ranges
+    if range is None:
+        x_min, x_max = min(x), max(x)
+        y_min, y_max = min(y), max(y)
+    else:
+        (x_min, x_max), (y_min, y_max) = range
+
+    # Bin widths
+    x_bin_width = (x_max - x_min) / bins_x
+    y_bin_width = (y_max - y_min) / bins_y
+
+    # Initialize 2D histogram array
+    hist = np.zeros((bins_x, bins_y))
+
+    # Fill histogram
+    for i in range(len(x)):
+        # Compute bin indices
+        ix = int((x[i] - x_min) / x_bin_width)
+        iy = int((y[i] - y_min) / y_bin_width)
+
+        # Clip indices at upper bound
+        if 0 <= ix < bins_x and 0 <= iy < bins_y:
+            hist[ix, iy] += 1
+
+    return hist
 
 ORDER = neopixel.GRB
 
@@ -80,21 +104,6 @@ pixels.fill((0, 0, 0))  # Begin with pixels off.
 # Simulation loop
 while True:
 
-    # negate the position to make clockwise rotation positive
-    position = -encoder.position
-
-    if position != last_position:
-        last_position = position
-        print(f"Position: {position}")
-
-    if not button.value and not button_held:
-        button_held = True
-        print("Button pressed")
-
-    if button.value and button_held:
-        button_held = False
-        print("Button released")
-
     key_event = keys.events.get()
     if key_event:
 
@@ -129,7 +138,7 @@ while True:
 
         N = len(pos)
 
-        acc = np.zeros_like(pos)
+        acc = np.zeros(pos.shape)
         for i in range(N):
             for j in range(N):
                 if i != j:
@@ -145,7 +154,7 @@ while True:
         # print(pos)
 
         # make a histogram of the positions
-        grid, _,  _ = np.histogram2d(pos[:, 0], pos[:, 1], bin_edges)
+        grid = histogram2d_ulab(pos[:, 0], pos[:, 1], bin_edges)
 
         # make a flattened version
         flattened_grid = grid.flatten()
