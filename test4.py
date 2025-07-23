@@ -85,7 +85,10 @@ while True:
 
     if position != last_position:
         last_position = position
-        print(f"Position: {position}")
+        
+
+        G = 1.0 * np.exp(position)
+        print(f"Position: {position} G: {G}")
 
     if not button.value and not button_held:
         button_held = True
