@@ -86,7 +86,10 @@ while True:
     if position != last_position:
         last_position = position
         
-        G = 1.0 * np.exp(position)
+        if position > 1000:
+            position = 0.0
+
+        G = 1.0 * np.exp(0.1*position)
 
         # Set G to be at max 10
         G = np.min([10., G])
