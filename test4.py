@@ -90,10 +90,9 @@ while True:
     if not button.value and not button_held:
         button_held = True
         print("Button pressed")
-
-    if button.value and button_held:
-        button_held = False
-        print("Button released")
+        pos = None
+        vel = None
+        pixels.fill((0, 0, 0))
 
     key_event = keys.events.get()
     if key_event:
@@ -103,25 +102,16 @@ while True:
             # get the row and column
             row, col = key_to_pixel_map(key_event.key_number)
 
-            print(row, col)
+            print('added at', row, col)
 
-            if (row == 4) and (col == 5):
-                pos = None
-                vel = None
-                pixels.fill((0, 0, 0))
+            # add a particle to that position...
 
+            if pos is None:
+                pos = np.array([[float(row)+0.5, float(col)+0.5]])
+                vel = np.array([[0., 0.]])
             else:
-
-                print('added at', row, col)
-
-                # add a particle to that position...
-
-                if pos is None:
-                    pos = np.array([[float(row)+0.5, float(col)+0.5]])
-                    vel = np.array([[0., 0.]])
-                else:
-                    pos = np.append(pos, np.array([[float(row)+0.5, float(col)+0.5]]), axis=0)
-                    vel = np.append(vel, np.array([[0, 0]]), axis=0)
+                pos = np.append(pos, np.array([[float(row)+0.5, float(col)+0.5]]), axis=0)
+                vel = np.append(vel, np.array([[0, 0]]), axis=0)
             
             print(pos)
 
