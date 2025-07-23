@@ -89,10 +89,13 @@ while True:
 
     if not button.value and not button_held:
         button_held = True
-        print("Button pressed")
         pos = None
         vel = None
         pixels.fill((0, 0, 0))
+
+    if button.value and button_held:
+        button_held = False
+        
 
     key_event = keys.events.get()
     if key_event:
@@ -112,7 +115,7 @@ while True:
             else:
                 pos = np.append(pos, np.array([[float(row)+0.5, float(col)+0.5]]), axis=0)
                 vel = np.append(vel, np.array([[0, 0]]), axis=0)
-            
+        
             print(pos)
 
     if pos is not None:
