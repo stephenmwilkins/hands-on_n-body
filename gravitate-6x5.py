@@ -1,44 +1,9 @@
-import board
-import digitalio
-import ulab.numpy as np
+import numpy as np
 import board
 import keypad
 import neopixel
 from time import sleep
-
-
-def histogram2d_ulab(x, y, bins=10, range=None):
-    # Convert scalars to bin counts
-    if isinstance(bins, int):
-        bins_x = bins_y = bins
-    else:
-        bins_x, bins_y = bins
-
-    # Determine ranges
-    if range is None:
-        x_min, x_max = min(x), max(x)
-        y_min, y_max = min(y), max(y)
-    else:
-        (x_min, x_max), (y_min, y_max) = range
-
-    # Bin widths
-    x_bin_width = (x_max - x_min) / bins_x
-    y_bin_width = (y_max - y_min) / bins_y
-
-    # Initialize 2D histogram array
-    hist = np.zeros((bins_x, bins_y))
-
-    # Fill histogram
-    for i in range(len(x)):
-        # Compute bin indices
-        ix = int((x[i] - x_min) / x_bin_width)
-        iy = int((y[i] - y_min) / y_bin_width)
-
-        # Clip indices at upper bound
-        if 0 <= ix < bins_x and 0 <= iy < bins_y:
-            hist[ix, iy] += 1
-
-    return hist
+from adafruit_seesaw import digitalio, rotaryio, seesaw
 
 ORDER = neopixel.GRB
 
@@ -70,7 +35,7 @@ G = 1.0          # Gravitational constant
 dt = 0.1         # Time step
 softening = 0.5   # Softening length (epsilon)
 
-pixels = neopixel.NeoPixel(board.D2, 30, brightness=1)
+pixels = neopixel.NeoPixel(board.D18, 30, brightness=1)
 
 # set all pixels to 0
 pixels.fill((0,0,0))
@@ -111,33 +76,24 @@ while True:
             # get the row and column
             row, col = key_to_pixel_map(key_event.key_number)
 
-            print(row, col)
+            print('added at', row, col)
 
-            if (row == 4) and (col == 5):
-                pos = None
-                vel = None
-                pixels.fill((0, 0, 0))
+            # add a particle to that position...
 
+            if pos is None:
+                pos = np.array([[float(row)+0.5, float(col)+0.5]])
+                vel = np.array([[0., 0.]])
             else:
-
-                print('added at', row, col)
-
-                # add a particle to that position...
-
-                if pos is None:
-                    pos = np.array([[float(row)+0.5, float(col)+0.5]])
-                    vel = np.array([[0., 0.]])
-                else:
-                    pos = np.append(pos, np.array([[float(row)+0.5, float(col)+0.5]]), axis=0)
-                    vel = np.append(vel, np.array([[0, 0]]), axis=0)
-            
+                pos = np.append(pos, np.array([[float(row)+0.5, float(col)+0.5]]), axis=0)
+                vel = np.append(vel, np.array([[0, 0]]), axis=0)
+        
             print(pos)
 
     if pos is not None:
 
         N = len(pos)
 
-        acc = np.zeros(pos.shape)
+        acc = np.zeros_like(pos)
         for i in range(N):
             for j in range(N):
                 if i != j:
@@ -153,7 +109,7 @@ while True:
         # print(pos)
 
         # make a histogram of the positions
-        grid = histogram2d_ulab(pos[:, 0], pos[:, 1], bin_edges)
+        grid, _,  _ = np.histogram2d(pos[:, 0], pos[:, 1], bin_edges)
 
         # make a flattened version
         flattened_grid = grid.flatten()
